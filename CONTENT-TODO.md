@@ -19,16 +19,16 @@ This is the biggest hole. Neither the profile nor the Linktree has a phone numbe
 - No hours anywhere.
 
 ## Claims I made up and you need to confirm
-- **"Runs off your phone"** (hero, and app control throughout). Standard for RGBW fiber engines,
-  but only true if that's the hardware he actually installs.
-- **Point counts 200–600+** — an industry-typical range, not his.
-- **Full day for a headliner, two days for bigger builds** — appears in the process section, the
-  FAQ and the quote page. If it's wrong it's wrong in three places.
-- **Deposit holds the slot** — I invented the booking mechanics wholesale.
-- **"Price back, usually same day"** on `book.html`.
-- **Power tapped to switched ignition**, **IP-rated sealed strips**, **heat-shrunk joints**,
-  **factory clips** — all in the service cards and FAQ. These are how it *should* be done. Confirm
-  it's how he does it.
+The service section is now three photos and one line each, so most of the invented spec detail
+is gone. What's left on the page:
+
+- **"Runs off your phone"** (hero) and **RGBW engines** (FAQ). Standard for these kits, but only
+  true if that's the hardware he actually installs.
+- **Full day for a headliner, two days for bigger builds** — process step 02 and the FAQ.
+- **Deposit holds the day** (process step 02) — I invented the booking mechanics wholesale.
+- **"Price back, usually same day"** — the closer and `book.html`.
+- **Everything goes back on factory clips** (process step 03) and **power tapped to a switched
+  source** (FAQ). How it *should* be done; confirm it's how he does it.
 - **"Bring it back" warranty** on the last FAQ. There is no stated warranty.
 
 ## The Arizona underglow FAQ
@@ -39,17 +39,17 @@ Read the current ARS language and reword it, or cut the answer down to "we set i
 ask us about your build."
 
 ## Work section captions
-- The five captions are my read of the photos and the video filenames, not his words:
-  "Full ceiling + sunroof surround", "Dodge Durango, 6k miles", "Star ceiling over red leather",
-  "RX-7, return customer", "GMC crew cab". The Durango and RX-7 details came from his own IG
-  captions; the other three I named from what I could see.
+- Four items now (the GMC crew cab was removed). The captions are my read of the photos and the
+  video filenames, not his words: "Full ceiling + sunroof surround", "Dodge Durango, 6k miles",
+  "Star ceiling over red leather", "RX-7, return customer". The Durango and RX-7 details came
+  from his own IG captions; the other two I named from what I could see.
 - **Permission to show customer vehicles.** No plates or faces, but they're still customer cars.
 
 ## Prices
-There are none anywhere — not on the landing page, not on the booking page. The pricing section
-explains what moves the number instead, and the booking summary just reads "Quoted per car".
-When real prices exist, the two places to put them are `#pricing` on the landing page and the
-`.summary__price` line in `book.html`.
+There are none anywhere, and there is no longer a pricing section on the landing page — it was
+removed. The only place cost is mentioned is the booking summary, which reads "Quoted per car".
+When real prices exist, that `.summary__price` line in `book.html` is where they go, or a new
+section on the landing page.
 
 ## The booking page is a template
 The five steps ask what a starlight shop *would* ask, not what he asks:
@@ -60,8 +60,17 @@ The five steps ask what a starlight shop *would* ask, not what he asks:
   no availability behind it; it's a preference, not a booking.
 - "No deposit until you've seen the price" is stated on the page. Make sure that's true.
 
+## Service photos
+The three shots in "Three ways to light a car" are his, shown uncropped at a uniform width. Note
+only the underglow screenshot is genuinely 9:16 (0.574); starlight is 0.847 and ambient is 0.689,
+so a fixed 9:16 frame would either crop them or letterbox them. If all three get re-shot at a
+true 9:16 they can be dropped straight in and the frame locked to that ratio. My read of which
+shot is which service could be wrong:
+starlight = the RGB sunroof-line ceiling, ambient = the red-lit Ford dash, underglow = the blue
+RX-7. Check that matches what he'd say.
+
 ## Assets
 - The logo came from a 196×166 screenshot, so `logo-512.png` is upscaled and slightly soft at
   large sizes. It's only used at 128px and under, so it holds — but a real logo file would be better.
-- Only five pieces of work. The gallery is sized for more; adding four or five more portrait
-  shots would fill the grid out properly.
+- Only four pieces of work now. The grid is set to four across on desktop, so adding more means
+  bumping that back up in `styles.css` (`.panes` media query).

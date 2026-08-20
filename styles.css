@@ -209,15 +209,16 @@ p{ margin:0; }
   padding:2rem 0;
   border-bottom:1px solid var(--line);
 }
-.rowitem__lead{ display:flex; flex-direction:column; gap:.6rem; }
+.rowitem__lead{ display:flex; flex-direction:column; justify-content:center; gap:.6rem; }
 .rowitem__lead p{ color:var(--mute); font-size:.9375rem; max-width:42ch; }
 
-.mini{ margin:0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:.5rem 1.25rem; align-content:start; }
-.mini dt{
-  font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.13em;
-  color:var(--white); padding-top:.15rem;
+.rowitem__shot{
+  /* Uniform width, natural height — nothing is cropped. A fixed 9:16 frame
+     would letterbox two of the three (only the underglow shot is really 9:16)
+     and leave dead space in the row. */
+  width:100%; max-width:340px; height:auto;
+  margin-left:auto;
 }
-.mini dd{ margin:0; font-size:.9375rem; color:var(--mute); }
 
 @media (max-width: 680px){ .rowitem{ grid-template-columns:minmax(0,1fr); } }
 
@@ -229,7 +230,7 @@ p{ margin:0; }
   gap:clamp(.5rem,1vw,.875rem);
 }
 @media (min-width: 560px){ .panes{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
-@media (min-width: 900px){ .panes{ grid-template-columns:repeat(5,minmax(0,1fr)); } }
+@media (min-width: 900px){ .panes{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
 
 .pane{ margin:0; position:relative; overflow:hidden; background:var(--ink); border-radius:3px; aspect-ratio:9/16; }
 .pane img, .pane video{
@@ -262,19 +263,6 @@ p{ margin:0; }
   color:var(--glow); font-variant-numeric:tabular-nums;
 }
 .steps p{ color:var(--mute); font-size:.9375rem; }
-
-/* ── pricing drivers ─────────────────────────────────────── */
-
-.drivers{
-  margin-top:1.5rem;
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(1.5rem,3vw,2.5rem);
-}
-@media (min-width: 900px){ .drivers{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
-@media (max-width: 460px){ .drivers{ grid-template-columns:minmax(0,1fr); } }
-.driver{ display:flex; flex-direction:column; gap:.4rem; padding-top:1rem; border-top:1px solid var(--line-2); }
-.driver b{ font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.13em; }
-.driver p{ color:var(--mute); font-size:.9375rem; }
 
 /* ── faq ─────────────────────────────────────────────────── */
 
