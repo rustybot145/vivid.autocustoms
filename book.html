@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book an install — Vivid Customs</title>
+<meta name="description" content="Book a starlight headliner, ambient lighting or underglow install with Vivid Customs in Peoria, Arizona.">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex">
+<link rel="icon" href="images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="images/logo-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav" data-stuck="true">
+  <a class="nav__brand" href="index.html" aria-label="Vivid Customs, home">
+    <img src="images/logo.png" alt="Vivid Customs" width="1160" height="688">
+  </a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="index.html#install">Install</a>
+    <a href="index.html#work">Work</a>
+    <a href="index.html#faq">FAQ</a>
+  </nav>
+  <a class="btn btn--sm btn--ghost" href="index.html">Back to site</a>
+</header>
+
+<div class="bookhead">
+  <p class="label">Book an install</p>
+  <h1>Tell us what<br>you're <i>driving</i></h1>
+  <p class="lede">
+    Five steps, about a minute. Everything here is what we'd ask you on the phone anyway — the more
+    of it you fill in, the closer the number you get back is to final.
+  </p>
+</div>
+
+<main class="book" id="main">
+
+  <form class="form" id="bookForm" novalidate>
+
+    <!-- 01 ─────────────────────────────────────────────── -->
+    <fieldset class="step">
+      <div class="step__head"><span class="step__n">01</span><h2>What are we installing?</h2></div>
+      <p class="step__hint">Pick everything you're interested in. Not sure yet is a fine answer.</p>
+      <div class="tiles">
+        <input type="checkbox" id="s1" name="service" value="Starlight headliner" checked>
+        <label for="s1"><b>Starlight headliner</b><span>Fiber-optic stars set into the roof lining</span></label>
+
+        <input type="checkbox" id="s2" name="service" value="Ambient interior">
+        <label for="s2"><b>Ambient interior</b><span>Doors, footwells, dash and console lighting</span></label>
+
+        <input type="checkbox" id="s3" name="service" value="Underglow &amp; exterior">
+        <label for="s3"><b>Underglow &amp; exterior</b><span>Rockers, wheel wells, grille and rock lights</span></label>
+
+        <input type="checkbox" id="s4" name="service" value="Repair or add-on to an existing setup">
+        <label for="s4"><b>Repair or add-on</b><span>Something already installed that needs work</span></label>
+      </div>
+    </fieldset>
+
+    <!-- 02 ─────────────────────────────────────────────── -->
+    <fieldset class="step">
+      <div class="step__head"><span class="step__n">02</span><h2>The vehicle</h2></div>
+      <div class="row">
+        <div class="field">
+          <label for="year">Year</label>
+          <input id="year" name="year" type="text" inputmode="numeric" placeholder="2023" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="make">Make</label>
+          <input id="make" name="make" type="text" placeholder="Dodge" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="model">Model &amp; trim</label>
+          <input id="model" name="model" type="text" placeholder="Durango R/T" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <span class="lbl" id="roofLbl">Roof</span>
+        <div class="chips" role="group" aria-labelledby="roofLbl">
+          <input type="radio" id="r1" name="roof" value="Solid roof" checked><label for="r1">Solid roof</label>
+          <input type="radio" id="r2" name="roof" value="Sunroof"><label for="r2">Sunroof</label>
+          <input type="radio" id="r3" name="roof" value="Panoramic roof"><label for="r3">Panoramic</label>
+          <input type="radio" id="r4" name="roof" value="Roof unknown"><label for="r4">Not sure</label>
+        </div>
+      </div>
+      <div class="field">
+        <span class="lbl" id="hlLbl">Headliner condition</span>
+        <div class="chips" role="group" aria-labelledby="hlLbl">
+          <input type="radio" id="h1" name="headliner" value="Factory, good condition" checked><label for="h1">Factory, good</label>
+          <input type="radio" id="h2" name="headliner" value="Sagging or damaged"><label for="h2">Sagging or damaged</label>
+          <input type="radio" id="h3" name="headliner" value="Already replaced or wrapped"><label for="h3">Already replaced</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 03 ─────────────────────────────────────────────── -->
+    <fieldset class="step">
+      <div class="step__head"><span class="step__n">03</span><h2>How you want it</h2></div>
+      <div class="row">
+        <div class="field">
+          <label for="density">Star density</label>
+          <select id="density" name="density">
+            <option>Subtle scatter</option>
+            <option selected>Standard night sky</option>
+            <option>Dense, wall to wall</option>
+            <option>You pick what suits it</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="coverage">Coverage</label>
+          <select id="coverage" name="coverage">
+            <option selected>Front row only</option>
+            <option>Front and second row</option>
+            <option>Whole roof, every row</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <span class="lbl" id="exLbl">Extras</span>
+        <div class="chips" role="group" aria-labelledby="exLbl">
+          <input type="checkbox" id="e1" name="extra" value="Shooting stars"><label for="e1">Shooting stars</label>
+          <input type="checkbox" id="e2" name="extra" value="Twinkle effect"><label for="e2">Twinkle</label>
+          <input type="checkbox" id="e3" name="extra" value="Sunroof surround"><label for="e3">Sunroof surround</label>
+          <input type="checkbox" id="e4" name="extra" value="App control"><label for="e4">App control</label>
+          <input type="checkbox" id="e5" name="extra" value="Match an existing color"><label for="e5">Match a color</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="colors">Colors you're after</label>
+        <input id="colors" name="colors" type="text" placeholder="Ice white daily, blue for shows" autocomplete="off">
+      </div>
+    </fieldset>
+
+    <!-- 04 ─────────────────────────────────────────────── -->
+    <fieldset class="step">
+      <div class="step__head"><span class="step__n">04</span><h2>When suits you</h2></div>
+      <p class="step__hint">A preference, not a locked slot — we'll confirm the day back to you.</p>
+      <div class="row">
+        <div class="field">
+          <label for="date">Earliest you could drop it</label>
+          <input id="date" name="date" type="date">
+        </div>
+        <div class="field">
+          <label for="drop">Drop-off</label>
+          <select id="drop" name="drop">
+            <option selected>Morning</option>
+            <option>Afternoon</option>
+            <option>Either works</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="flex">How flexible</label>
+          <select id="flex" name="flex">
+            <option>That week only</option>
+            <option selected>Within a couple of weeks</option>
+            <option>Whenever you have room</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <span class="lbl" id="waitLbl">While it's in</span>
+        <div class="chips" role="group" aria-labelledby="waitLbl">
+          <input type="radio" id="w1" name="wait" value="Leaving the car" checked><label for="w1">Leaving the car</label>
+          <input type="radio" id="w2" name="wait" value="Waiting on site"><label for="w2">Waiting on site</label>
+          <input type="radio" id="w3" name="wait" value="Needs to be same day"><label for="w3">Same day, please</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 05 ─────────────────────────────────────────────── -->
+    <fieldset class="step">
+      <div class="step__head"><span class="step__n">05</span><h2>How to reach you</h2></div>
+      <div class="row">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required placeholder="First and last">
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="(623) 555-0134">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="email">Email <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <label for="found">How did you find us?</label>
+          <select id="found" name="found">
+            <option selected>Instagram</option>
+            <option>TikTok</option>
+            <option>A friend sent me</option>
+            <option>Saw a car you did</option>
+            <option>Search</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="notes">Anything else</label>
+        <textarea id="notes" name="notes" placeholder="A build of yours I saw, aftermarket headliner, tight deadline — whatever matters."></textarea>
+      </div>
+    </fieldset>
+
+    <div class="form__actions">
+      <button class="btn" type="submit">Send booking request</button>
+      <p class="status" id="status" role="status"></p>
+      <p class="form__note">
+        Nothing is stored on this page. On send it hands the request to your own text app or to
+        Instagram, so it arrives from you — and no deposit is taken until you've seen the price.
+      </p>
+    </div>
+  </form>
+
+  <aside class="summary" id="summary" aria-label="Your booking so far">
+    <h2>Your build</h2>
+    <dl>
+      <dt>Install</dt><dd id="sumService">Starlight headliner</dd>
+      <dt>Vehicle</dt><dd id="sumVehicle">—</dd>
+      <dt>Ceiling</dt><dd id="sumCeiling">Standard night sky, front row only</dd>
+      <dt>Extras</dt><dd id="sumExtras">None</dd>
+      <dt>Timing</dt><dd id="sumWhen">Within a couple of weeks</dd>
+    </dl>
+    <hr>
+    <p class="summary__price">Quoted per car</p>
+    <p>Point count, the vehicle and the extras all move it, so the number comes back after we've seen what you're driving.</p>
+    <hr>
+    <p>Rather just DM? Send interior photos to <a href="https://www.instagram.com/vivid.autocustoms/" target="_blank" rel="noopener">@vivid.autocustoms</a>.</p>
+  </aside>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__brand">
+    <img src="images/logo.png" alt="Vivid Customs" width="1160" height="688" loading="lazy">
+    <span>Automotive customs · Peoria, AZ</span>
+  </div>
+  <nav class="foot__links" aria-label="Footer">
+    <a href="index.html">Home</a>
+    <a href="index.html#work">Work</a>
+    <a href="https://www.instagram.com/vivid.autocustoms/" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+  <p class="foot__fine">© <span id="yr">2026</span> Vivid Customs.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
