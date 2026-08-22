@@ -38,10 +38,10 @@ revealed.forEach((el) => revealObserver.observe(el));
 /* ── hero video: don't keep decoding it off screen ──────── */
 const heroVideo = $(".hero__video");
 if (heroVideo && !reduced) {
-  new IntersectionObserver(
-    ([e]) => (e.isIntersecting ? heroVideo.play().catch(() => {}) : heroVideo.pause()),
-    { threshold: 0 }
-  ).observe(heroVideo);
+  const roll = () => heroVideo.play().catch(() => {});
+  new IntersectionObserver(([e]) => (e.isIntersecting ? roll() : heroVideo.pause()), { threshold: 0 }).observe(heroVideo);
+  // iOS in Low Power Mode refuses autoplay outright — take the first tap as permission
+  heroVideo.play().catch(() => addEventListener("touchstart", roll, { once: true, passive: true }));
 }
 
 /* ── work videos: play only while on screen ─────────────── */
