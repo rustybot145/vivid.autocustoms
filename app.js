@@ -38,10 +38,21 @@ revealed.forEach((el) => revealObserver.observe(el));
 /* ── hero video: don't keep decoding it off screen ──────── */
 const heroVideo = $(".hero__video");
 if (heroVideo && !reduced) {
+  // Safari checks these as properties, not only as attributes, before it will autoplay
+  heroVideo.muted = true;
+  heroVideo.playsInline = true;
+
   const roll = () => heroVideo.play().catch(() => {});
   new IntersectionObserver(([e]) => (e.isIntersecting ? roll() : heroVideo.pause()), { threshold: 0 }).observe(heroVideo);
-  // iOS in Low Power Mode refuses autoplay outright — take the first tap as permission
-  heroVideo.play().catch(() => addEventListener("touchstart", roll, { once: true, passive: true }));
+
+  // try again as the file becomes playable, and whenever the page comes back
+  ["loadedmetadata", "canplay"].forEach((e) => heroVideo.addEventListener(e, roll, { once: true }));
+  addEventListener("pageshow", roll);
+  document.addEventListener("visibilitychange", () => document.hidden || roll());
+
+  // Low Power Mode refuses autoplay whatever the page does — first touch counts as consent
+  ["pointerdown", "touchstart"].forEach((e) => addEventListener(e, roll, { once: true, passive: true }));
+  roll();
 }
 
 /* ── work videos: play only while on screen ─────────────── */
