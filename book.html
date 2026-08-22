@@ -34,14 +34,19 @@
   <p class="label">Book an install</p>
   <h1>Tell us what<br>you're <i>driving</i></h1>
   <p class="lede">
-    Five steps, about a minute. Everything here is what we'd ask you on the phone anyway — the more
-    of it you fill in, the closer the number you get back is to final.
+    Six screens, about a minute. One question at a time, and you'll see the whole request
+    laid out before anything sends — the more you fill in, the closer the number comes back to final.
   </p>
 </div>
 
 <main class="book" id="main">
 
   <form class="form" id="bookForm" novalidate>
+
+    <div class="wiz" id="wiz">
+      <div class="wiz__track"><i class="wiz__fill" id="wizFill"></i></div>
+      <p class="wiz__count" id="wizCount" role="status">Step 1 of 6</p>
+    </div>
 
     <!-- 01 ─────────────────────────────────────────────── -->
     <fieldset class="step">
@@ -101,33 +106,20 @@
     <!-- 03 ─────────────────────────────────────────────── -->
     <fieldset class="step">
       <div class="step__head"><span class="step__n">03</span><h2>How you want it</h2></div>
-      <div class="row">
-        <div class="field">
-          <label for="density">Star density</label>
-          <select id="density" name="density">
-            <option>Subtle scatter</option>
-            <option selected>Standard night sky</option>
-            <option>Dense, wall to wall</option>
-            <option>You pick what suits it</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="coverage">Coverage</label>
-          <select id="coverage" name="coverage">
-            <option selected>Front row only</option>
-            <option>Front and second row</option>
-            <option>Whole roof, every row</option>
-          </select>
-        </div>
+      <div class="field">
+        <label for="coverage">Coverage</label>
+        <select id="coverage" name="coverage">
+          <option selected>Front row only</option>
+          <option>Front and second row</option>
+          <option>Whole roof, every row</option>
+        </select>
       </div>
       <div class="field">
         <span class="lbl" id="exLbl">Extras</span>
+        <p class="step__hint">Twinkle, app control and color matching come standard on every install — no need to ask.</p>
         <div class="chips" role="group" aria-labelledby="exLbl">
           <input type="checkbox" id="e1" name="extra" value="Shooting stars"><label for="e1">Shooting stars</label>
-          <input type="checkbox" id="e2" name="extra" value="Twinkle effect"><label for="e2">Twinkle</label>
-          <input type="checkbox" id="e3" name="extra" value="Sunroof surround"><label for="e3">Sunroof surround</label>
-          <input type="checkbox" id="e4" name="extra" value="App control"><label for="e4">App control</label>
-          <input type="checkbox" id="e5" name="extra" value="Match an existing color"><label for="e5">Match a color</label>
+          <input type="checkbox" id="e2" name="extra" value="Pano/sunroof ambient strips"><label for="e2">Pano/sunroof ambient strips</label>
         </div>
       </div>
       <div class="field">
@@ -207,8 +199,19 @@
       </div>
     </fieldset>
 
+    <!-- 06 ─────────────────────────────────────────────── -->
+    <fieldset class="step" id="stepReview">
+      <div class="step__head"><span class="step__n">06</span><h2>Check it over</h2></div>
+      <p class="step__hint">Everything you've picked. Change anything you want before it sends.</p>
+      <dl class="review" id="reviewOut"></dl>
+    </fieldset>
+
     <div class="form__actions">
-      <button class="btn" type="submit">Send booking request</button>
+      <div class="wiz__nav">
+        <button class="btn btn--ghost btn--sm" type="button" id="wizBack" hidden>Back</button>
+        <button class="btn btn--sm" type="button" id="wizNext" hidden>Next</button>
+        <button class="btn" type="submit" id="wizSend">Send booking request</button>
+      </div>
       <p class="status" id="status" role="status"></p>
       <p class="form__note">
         Nothing is stored on this page. On send it hands the request to your own text app or to
@@ -217,16 +220,8 @@
     </div>
   </form>
 
-  <aside class="summary" id="summary" aria-label="Your booking so far">
-    <h2>Your build</h2>
-    <dl>
-      <dt>Install</dt><dd id="sumService">Starlight headliner</dd>
-      <dt>Vehicle</dt><dd id="sumVehicle">—</dd>
-      <dt>Ceiling</dt><dd id="sumCeiling">Standard night sky, front row only</dd>
-      <dt>Extras</dt><dd id="sumExtras">None</dd>
-      <dt>Timing</dt><dd id="sumWhen">Within a couple of weeks</dd>
-    </dl>
-    <hr>
+  <aside class="summary" id="summary" aria-label="What it costs">
+    <h2>What it costs</h2>
     <p class="summary__price">Quoted per car</p>
     <p>Point count, the vehicle and the extras all move it, so the number comes back after we've seen what you're driving.</p>
     <hr>
