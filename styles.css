@@ -135,7 +135,9 @@ p{ margin:0; }
   position:relative;
   min-height:100svh;
   display:flex; flex-direction:column; justify-content:center;
-  padding:7rem var(--pad) 4rem;
+  /* bottom padding = top padding minus the nav, so the gap under the buttons
+     matches the gap above the label instead of running 30px deeper */
+  padding:7rem var(--pad) 2rem;
   overflow:hidden;
   isolation:isolate;
 }
@@ -160,12 +162,12 @@ p{ margin:0; }
 
 .hero__h1{
   font-size:clamp(3.25rem, 10.5vw, 8.5rem);
-  margin:.25rem 0 0;
+  margin:0;
 }
 .hero__h1 i{ color:var(--white); }
 
 .hero__sub{ max-width:48ch; color:rgba(244,246,249,.82); font-size:clamp(1rem,1.4vw,1.1875rem); }
-.hero__cta{ display:flex; flex-wrap:wrap; gap:.75rem; margin-top:.5rem; }
+.hero__cta{ display:flex; flex-wrap:wrap; gap:1rem; }
 
 /* ── section shell: a label rail, then the content ───────── */
 
