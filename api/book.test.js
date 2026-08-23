@@ -38,5 +38,13 @@ const run = async (body, method = "POST") => {
   assert.equal(payload.attachments.length, 3);
 
   assert.equal((await run({ rows: [["x", "y"]] })).code, 200);
+
+  // whatever the variable ended up being called, a real key still gets found
+  delete process.env.RESEND_API_KEY;
+  process.env.Resend = "re_abc123def456ghi";
+  assert.equal((await run({ rows: [["x", "y"]] })).code, 200);
+  delete process.env.Resend;
+  process.env.Resend = "not-a-key";
+  assert.equal((await run({ rows: [["x", "y"]] })).code, 500);
   console.log("all good");
 })();

@@ -11,9 +11,16 @@ const FROM = process.env.BOOKING_FROM || "Vivid Customs <onboarding@resend.dev>"
 const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
+// Vercel env names are case-sensitive, so RESEND_API_KEY is what to use — but
+// fall back to any resend-ish name holding a real key rather than fail silently.
+const apiKey = () =>
+  process.env.RESEND_API_KEY ||
+  Object.entries(process.env).find(([k, v]) => /resend/i.test(k) && /^re_[\w-]{10,}$/.test(v || ""))?.[1];
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
-  if (!process.env.RESEND_API_KEY) return res.status(500).json({ error: "Email isn't configured yet." });
+  const key = apiKey();
+  if (!key) return res.status(500).json({ error: "No Resend API key in the environment (set RESEND_API_KEY)." });
 
   const { name = "", rows = [], attachments = [], replyTo = "", website = "" } = req.body || {};
   if (website) return res.status(200).json({ ok: true }); // honeypot: bots fill it, people can't see it
@@ -36,7 +43,7 @@ module.exports = async function handler(req, res) {
 
   const sent = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { authorization: `Bearer ${process.env.RESEND_API_KEY}`, "content-type": "application/json" },
+    headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
     body: JSON.stringify({
       from: FROM,
       to: TO,
