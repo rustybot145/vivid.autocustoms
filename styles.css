@@ -539,3 +539,76 @@ p{ margin:0; }
   .gal__item a:hover img{ transform:none; }
   .pane__link span{ transition:none; }
 }
+
+/* ============================================================
+   Sent — the headliner coming on. Stars fade up behind a tick
+   that draws itself, then the copy rises through.
+   ============================================================ */
+.done{
+  position:relative; display:grid; justify-items:center; text-align:center;
+  gap:1rem; padding:4.5rem 0 5.5rem; overflow:hidden;
+}
+.done[hidden]{ display:none; }
+
+.done__sky{ position:absolute; inset:0; pointer-events:none; }
+.done__sky i{
+  position:absolute; width:var(--s,2px); height:var(--s,2px); border-radius:50%;
+  background:var(--white); opacity:0;
+  box-shadow:0 0 6px 1px rgba(244,246,249,.55);
+  animation:starlight 3.2s ease-in-out var(--d,0s) infinite;
+}
+@keyframes starlight{
+  0%   { opacity:0;   transform:scale(.4); }
+  18%  { opacity:1;   transform:scale(1); }
+  55%  { opacity:.28; transform:scale(.85); }
+  100% { opacity:0;   transform:scale(.4); }
+}
+
+.done__mark{
+  position:relative; color:var(--glow);
+  animation:markIn .55s cubic-bezier(.2,1.5,.4,1) both;
+}
+.done__mark::after{           /* the glow washing outward once */
+  content:""; position:absolute; inset:-14px; border-radius:50%;
+  background:radial-gradient(circle, var(--glow-lo) 0%, transparent 70%);
+  animation:markWash 1.5s ease-out .25s both;
+}
+@keyframes markIn{ from{ opacity:0; transform:scale(.4); } to{ opacity:1; transform:scale(1); } }
+@keyframes markWash{ from{ opacity:0; transform:scale(.5); } 40%{ opacity:1; } to{ opacity:0; transform:scale(2.1); } }
+
+.done__ring{ stroke-dasharray:145; stroke-dashoffset:145; animation:draw .7s ease-out .1s forwards; }
+.done__tick{ stroke-dasharray:34;  stroke-dashoffset:34;  animation:draw .35s ease-out .55s forwards; }
+@keyframes draw{ to{ stroke-dashoffset:0; } }
+
+.done h2{
+  font-family:var(--serif); font-weight:400; font-size:clamp(2rem,6vw,2.9rem);
+  margin:.6rem 0 0; letter-spacing:-.01em;
+  animation:riseIn .6s ease-out .5s both;
+}
+.done h2:focus{ outline:none; }   /* focused only so screen readers announce it */
+.done__note{
+  max-width:34rem; margin:0; color:var(--mute); font-size:1.0625rem; line-height:1.6;
+  animation:riseIn .6s ease-out .62s both;
+}
+.done__cta{
+  display:flex; flex-wrap:wrap; gap:.75rem; justify-content:center; margin-top:.75rem;
+  animation:riseIn .6s ease-out .78s both;
+}
+@keyframes riseIn{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+
+/* the send button, while it's actually sending */
+.btn.is-sending{ pointer-events:none; opacity:.75; }
+.btn.is-sending::after{
+  content:""; display:inline-block; vertical-align:-2px; margin-left:.6rem;
+  width:13px; height:13px; border-radius:50%;
+  border:2px solid currentColor; border-top-color:transparent;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce){
+  .done__sky{ display:none; }
+  .done__mark, .done__mark::after, .done h2, .done__note, .done__cta,
+  .done__ring, .done__tick, .btn.is-sending::after{ animation:none; }
+  .done__ring, .done__tick{ stroke-dashoffset:0; }
+}

@@ -187,6 +187,27 @@ if (form) {
   let cur = 0;
   let toReview = false; // set when someone jumps back from the review to fix one answer
 
+  // sent — swap the form for the star ceiling coming up
+  const lightsOn = () => {
+    const done = $("#done"), sky = $("#doneSky");
+    form.hidden = true;
+    $(".bookhead").hidden = true;
+    done.hidden = false;
+    if (!reduced) {
+      for (let i = 0; i < 46; i++) {
+        const star = document.createElement("i");
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.setProperty("--d", `${(Math.random() * 2.6).toFixed(2)}s`);
+        star.style.setProperty("--s", `${(Math.random() * 1.8 + 1).toFixed(1)}px`);
+        sky.append(star);
+      }
+    }
+    done.querySelector("h2").tabIndex = -1;
+    done.querySelector("h2").focus({ preventScroll: true });
+    scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  };
+
   const fail = (msg, id) => {
     status.dataset.err = "true";
     status.textContent = msg;
@@ -278,6 +299,7 @@ if (form) {
 
     // the email is the real send; the handoffs below are only a safety net
     send.disabled = true;
+    send.classList.add("is-sending");
     status.textContent = shots.length ? "Sending, with your logo…" : "Sending…";
     try {
       const r = await fetch("/api/book", {
@@ -292,12 +314,12 @@ if (form) {
         }),
       });
       if (!r.ok) throw new Error(r.status);
-      status.textContent = "Sent. We'll come back to you with a number shortly.";
-      return;
+      return lightsOn();
     } catch {
       status.textContent = "";
     } finally {
       send.disabled = false;
+      send.classList.remove("is-sending");
     }
 
     // email didn't go through — hand it off rather than lose the request
