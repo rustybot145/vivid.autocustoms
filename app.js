@@ -1,4 +1,4 @@
-/* Vivid Customs — one file for both pages. No build step, no dependencies. */
+/* Vivid Customs — one file for every page. No build step, no dependencies. */
 
 // ── SET THIS ────────────────────────────────────────────────
 // The shop's number, in +1XXXXXXXXXX form. Leave it empty and the
@@ -22,7 +22,7 @@ if (nav && nav.dataset.stuck !== "true") {
 }
 
 /* ── scroll reveal ──────────────────────────────────────── */
-const revealed = $$(".sec__body, .closer, .bookhead, .summary");
+const revealed = $$(".sec__body, .closer, .bookhead");
 revealed.forEach((el) => (el.dataset.reveal = ""));
 const revealObserver = new IntersectionObserver(
   (entries, obs) =>
@@ -62,6 +62,61 @@ const paneObserver = new IntersectionObserver(
   { threshold: 0.35 }
 );
 $$(".pane video").forEach((v) => paneObserver.observe(v));
+
+/* ── build gallery: one page, whichever car the link asked for ── */
+const gal = $("#gal");
+if (gal && typeof GALLERY !== "undefined") {
+  const slug = new URLSearchParams(location.search).get("car");
+  // own-property only: ?car=constructor would otherwise sail through as truthy
+  const car = slug && Object.hasOwn(GALLERY, slug) ? GALLERY[slug] : null;
+
+  const el = (tag, props) => Object.assign(document.createElement(tag), props);
+  const item = (node) => {
+    const fig = el("figure", { className: "gal__item" });
+    fig.append(node);
+    gal.append(fig);
+  };
+
+  if (car) {
+    $("#galName").textContent = car.name;
+    $("#galSpec").textContent = car.spec;
+    document.title = `${car.name} — Vivid Customs`;
+
+    car.clips.forEach(([file, w, h], i) => {
+      const dir = `video/gallery/${slug}/`;
+      item(el("video", {
+        src: dir + file, poster: dir + file.replace(".mp4", ".jpg"),
+        width: w, height: h, muted: true, loop: true, playsInline: true,
+        preload: "none", ariaLabel: `${car.name}, clip ${i + 1}`,
+      }));
+    });
+
+    car.shots.forEach(([file, w, h], i) => {
+      const src = `images/gallery/${slug}/${file}`;
+      const a = el("a", { href: src, title: "Open full size" });
+      a.append(el("img", {
+        src, width: w, height: h, loading: "lazy", decoding: "async",
+        alt: `${car.name}, photo ${i + 1} of ${car.shots.length}`,
+      }));
+      item(a);
+    });
+
+    // same treatment the work panes get: play only while on screen
+    $$("video", gal).forEach((v) => paneObserver.observe(v));
+  } else {
+    // no car named, or one we don't have — fall back to the full list
+    $("#galName").textContent = "Every build";
+    $("#galSpec").textContent = "Pick a car to see the whole shoot.";
+  }
+
+  const more = $("#galMore");
+  more.append(el("p", { className: "label", textContent: car ? "Other builds" : "The builds" }));
+  Object.entries(GALLERY)
+    .filter(([key]) => key !== slug)
+    .forEach(([key, other]) =>
+      more.append(el("a", { href: `gallery.html?car=${key}`, textContent: other.name }))
+    );
+}
 
 /* ── booking quiz: one step at a time, then the whole thing ── */
 const form = $("#bookForm");
