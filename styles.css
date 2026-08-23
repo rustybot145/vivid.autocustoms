@@ -246,28 +246,14 @@ p{ margin:0; }
   padding:.4rem .8rem; border-radius:999px;
   font-size:.75rem; font-weight:600; letter-spacing:.02em;
   color:var(--ink); background:var(--white);
+  opacity:0; translate:0 -.35rem;
   transition:opacity .25s ease, translate .25s ease;
 }
-/* touch: the chip just sits there, so the card reads as tappable on the
-   first tap. Pointer devices get it on hover. */
+.pane__link:focus-visible span{ opacity:1; translate:0; }
+/* Hover only where there's a pointer to hover with — on a phone a :hover rule
+   costs a tap, and the chip would have nothing to reveal it anyway. */
 @media (hover: hover) and (pointer: fine){
-  .pane__link span{ opacity:0; translate:0 -.35rem; }
-  .pane:hover .pane__link span,
-  .pane__link:focus-visible span{ opacity:1; translate:0; }
-}
-
-/* Touch has no hover to reveal it, so the cue is always on — but six labels
-   shouting across the photos is too much. Shrink it to a corner badge and
-   keep the wording for screen readers. */
-@media (hover: none), (pointer: coarse){
-  .pane__link span{
-    right:.55rem; top:.55rem;
-    width:1.7rem; height:1.7rem; padding:0;
-    display:grid; place-items:center;
-    font-size:0;
-    background:rgba(244,246,249,.94);
-  }
-  .pane__link span::after{ content:"\2197"; font-size:.9rem; line-height:1; }
+  .pane:hover .pane__link span{ opacity:1; translate:0; }
 }
 
 /* ── process ─────────────────────────────────────────────── */
