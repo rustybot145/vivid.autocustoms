@@ -118,6 +118,27 @@ if (gal && typeof GALLERY !== "undefined") {
     );
 }
 
+/* phone photos run 4-5MB and the endpoint takes 4.5MB a request, so the
+   logo references get scaled down and re-encoded before they're sent. */
+const shrink = (file) =>
+  new Promise((done) => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k);
+      c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      done({
+        filename: file.name.replace(/\.\w+$/, "") + ".jpg",
+        content: c.toDataURL("image/jpeg", 0.82).split(",")[1],
+      });
+    };
+    img.onerror = () => (URL.revokeObjectURL(img.src), done(null));
+    img.src = URL.createObjectURL(file);
+  });
+
 /* ── booking quiz: one step at a time, then the whole thing ── */
 const form = $("#bookForm");
 if (form) {
@@ -131,15 +152,27 @@ if (form) {
     return [day && `From ${day}`, val("flex")].filter(Boolean).join(" · ");
   };
 
+  // the Logo extra opens a drawer for the description and reference images
+  const logo = $("#e3"), logoFile = $("#logoFile");
+  const logoShots = () => (logo.checked ? [...logoFile.files] : []);
+  const logoLine = () => {
+    const n = logoShots().length;
+    return [val("logoNote") || "Details to follow", n && `${n} reference photo${n > 1 ? "s" : ""}`]
+      .filter(Boolean).join(" · ");
+  };
+  const drawer = () => ($("#logoPanel").hidden = !logo.checked);
+  logo.addEventListener("change", drawer);
+  drawer();
+
   // one row per answer: [step it lives on, label, value]. Drives the review
   // screen and the message that gets sent, so the two can't drift apart.
   const details = () => [
     [0, "Install", checked("service").join(", ") || "Not decided yet"],
     [1, "Vehicle", vehicle() || "—"],
     [1, "Roof", `${checked("roof")[0]}, headliner ${checked("headliner")[0].toLowerCase()}`],
-    [2, "Coverage", val("coverage")],
+    [2, "Stars", val("stars")],
     [2, "Extras", checked("extra").join(", ") || "None"],
-    [2, "Colors", val("colors") || "Your call"],
+    ...(logo.checked ? [[2, "Logo", logoLine()]] : []),
     [3, "Timing", `${when()}, ${val("drop").toLowerCase()} drop-off, ${checked("wait")[0].toLowerCase()}`],
     [4, "Name", val("name") || "—"],
     [4, "Contact", `${val("phone")}${val("email") ? ` / ${val("email")}` : ""}` || "—"],
@@ -239,20 +272,58 @@ if (form) {
     }
     status.dataset.err = "false";
 
-    const msg = [`Booking request — ${val("name")}`, ...details().map(([, k, v]) => `${k}: ${v}`)].join("\n");
+    const rows = details().map(([, k, v]) => [k, v]);
+    const msg = [`Booking request — ${val("name")}`, ...rows.map(([k, v]) => `${k}: ${v}`)].join("\n");
+    const shots = logoShots().slice(0, 3);
+
+    // the email is the real send; the handoffs below are only a safety net
+    send.disabled = true;
+    status.textContent = shots.length ? "Sending, with your logo…" : "Sending…";
+    try {
+      const r = await fetch("/api/book", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name: val("name"),
+          replyTo: val("email"),
+          website: val("website"),
+          rows,
+          attachments: (await Promise.all(shots.map(shrink))).filter(Boolean),
+        }),
+      });
+      if (!r.ok) throw new Error(r.status);
+      status.textContent = "Sent. We'll come back to you with a number shortly.";
+      return;
+    } catch {
+      status.textContent = "";
+    } finally {
+      send.disabled = false;
+    }
+
+    // email didn't go through — hand it off rather than lose the request
+    const bring = shots.length ? " Attach your logo photo there too." : "";
+    if (shots.length && navigator.canShare?.({ files: shots })) {
+      try {
+        await navigator.share({ text: msg, files: shots });
+        status.textContent = "Shared — send it in the app you picked to finish.";
+      } catch (e) {
+        if (e.name !== "AbortError") status.textContent = "Couldn't send — DM us at @vivid.autocustoms.";
+      }
+      return;
+    }
 
     if (SHOP_PHONE) {
       const sep = /iPhone|iPad|Mac/.test(navigator.userAgent) ? "&" : "?";
       location.href = `sms:${SHOP_PHONE}${sep}body=${encodeURIComponent(msg)}`;
-      status.textContent = "Opening your messages — hit send to finish.";
+      status.textContent = "Opening your messages — hit send to finish." + bring;
       return;
     }
 
     try {
       await navigator.clipboard.writeText(msg);
-      status.textContent = "Copied. Paste it into the DM that just opened.";
+      status.textContent = "Copied. Paste it into the DM that just opened." + bring;
     } catch {
-      status.textContent = "Opening Instagram — paste your details into the DM.";
+      status.textContent = "Opening Instagram — paste your details into the DM." + bring;
     }
     open(SHOP_IG, "_blank", "noopener");
   });

@@ -107,11 +107,14 @@
     <fieldset class="step">
       <div class="step__head"><span class="step__n">03</span><h2>How you want it</h2></div>
       <div class="field">
-        <label for="coverage">Coverage</label>
-        <select id="coverage" name="coverage">
-          <option selected>Front row only</option>
-          <option>Front and second row</option>
-          <option>Whole roof, every row</option>
+        <label for="stars">Star count</label>
+        <select id="stars" name="stars">
+          <option>400</option>
+          <option selected>600</option>
+          <option>800</option>
+          <option>1000</option>
+          <option>1500</option>
+          <option>2000</option>
         </select>
       </div>
       <div class="field">
@@ -119,12 +122,16 @@
         <p class="step__hint">Twinkle, app control and color matching come standard on every install — no need to ask.</p>
         <div class="chips" role="group" aria-labelledby="exLbl">
           <input type="checkbox" id="e1" name="extra" value="Shooting stars"><label for="e1">Shooting stars</label>
-          <input type="checkbox" id="e2" name="extra" value="Pano/sunroof ambient strips"><label for="e2">Pano/sunroof ambient strips</label>
+          <input type="checkbox" id="e2" name="extra" value="Dual color"><label for="e2">Dual color</label>
+          <input type="checkbox" id="e3" name="extra" value="Logo" aria-controls="logoPanel"><label for="e3">Logo</label>
         </div>
       </div>
-      <div class="field">
-        <label for="colors">Colors you're after</label>
-        <input id="colors" name="colors" type="text" placeholder="Ice white daily, blue for shows" autocomplete="off">
+      <div class="field drawer" id="logoPanel" hidden>
+        <label for="logoNote">The logo you want up there</label>
+        <textarea id="logoNote" name="logoNote" placeholder="Team badge over the passenger seat, about a foot wide, white fiber."></textarea>
+        <label for="logoFile">Upload a reference</label>
+        <input id="logoFile" name="logoFile" type="file" accept="image/*" multiple>
+        <p class="step__hint" id="logoHint">A photo, screenshot or the logo file itself — whatever you have.</p>
       </div>
     </fieldset>
 
@@ -205,6 +212,9 @@
       <p class="step__hint">Everything you've picked. Change anything you want before it sends.</p>
       <dl class="review" id="reviewOut"></dl>
     </fieldset>
+
+    <!-- honeypot: off-screen and skipped by tab, so only a bot fills it -->
+    <input class="hp" id="website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
 
     <div class="form__actions">
       <div class="wiz__nav">

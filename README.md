@@ -12,13 +12,32 @@ python3 -m http.server 4173
 | File | What it is |
 |---|---|
 | `index.html` | Landing page |
-| `book.html` | Booking page — five steps, live summary panel |
+| `book.html` | Booking page — six-step quiz, review screen before it sends |
 | `styles.css` | All styles for both pages |
-| `app.js` | Scroll reveals, video playback, booking form + summary |
+| `app.js` | Scroll reveals, video playback, booking quiz, car galleries |
+| `api/book.js` | Vercel function that emails the booking request through Resend |
 | `images/` | Logo, keyed out of the Instagram profile picture |
 | `images/work/` | Install photos |
 | `video/` | `hero.mp4` (the landing-page background) + the work clips and posters |
 | `CONTENT-TODO.md` | **Read this first** — every claim on the page that is still an assumption |
+
+## Where booking requests go
+
+`api/book.js` posts the request to Resend, which emails it to `vividcustomsaz@gmail.com`
+with any logo references attached. Set in the Vercel project's environment variables:
+
+| Variable | |
+|---|---|
+| `RESEND_API_KEY` | **required** — from resend.com/api-keys |
+| `BOOKING_TO` | optional, defaults to `vividcustomsaz@gmail.com` |
+| `BOOKING_FROM` | optional, defaults to `onboarding@resend.dev` |
+
+`onboarding@resend.dev` only delivers to the Resend account's own address, which is fine
+while that address is the shop's. Verify `vividautocustoms.com` in Resend and set
+`BOOKING_FROM` to `Vivid Customs <bookings@vividautocustoms.com>` to send anywhere else.
+
+If the email fails for any reason the form falls back to the Instagram DM handoff, so a
+request is never dropped on the floor. `node api/book.test.js` checks the endpoint.
 
 ## The one thing to set
 
