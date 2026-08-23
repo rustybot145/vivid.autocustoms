@@ -225,7 +225,12 @@ p{ margin:0; }
   width:100%; height:100%; object-fit:cover;
   transition:transform .7s cubic-bezier(.2,.7,.3,1);
 }
-.pane:hover img, .pane:hover video{ transform:scale(1.04); }
+/* Hover effects only where there's a pointer to hover with. On a phone a
+   :hover rule costs a tap: Safari spends the first one applying the hover
+   state and only opens the link on the second. */
+@media (hover: hover) and (pointer: fine){
+  .pane:hover img, .pane:hover video{ transform:scale(1.04); }
+}
 .pane figcaption{
   position:absolute; inset:auto 0 0 0;
   padding:2rem .9rem .8rem;
@@ -241,11 +246,29 @@ p{ margin:0; }
   padding:.4rem .8rem; border-radius:999px;
   font-size:.75rem; font-weight:600; letter-spacing:.02em;
   color:var(--ink); background:var(--white);
-  opacity:0; translate:0 -.35rem;
   transition:opacity .25s ease, translate .25s ease;
 }
-.pane:hover .pane__link span,
-.pane__link:focus-visible span{ opacity:1; translate:0; }
+/* touch: the chip just sits there, so the card reads as tappable on the
+   first tap. Pointer devices get it on hover. */
+@media (hover: hover) and (pointer: fine){
+  .pane__link span{ opacity:0; translate:0 -.35rem; }
+  .pane:hover .pane__link span,
+  .pane__link:focus-visible span{ opacity:1; translate:0; }
+}
+
+/* Touch has no hover to reveal it, so the cue is always on — but six labels
+   shouting across the photos is too much. Shrink it to a corner badge and
+   keep the wording for screen readers. */
+@media (hover: none), (pointer: coarse){
+  .pane__link span{
+    right:.55rem; top:.55rem;
+    width:1.7rem; height:1.7rem; padding:0;
+    display:grid; place-items:center;
+    font-size:0;
+    background:rgba(244,246,249,.94);
+  }
+  .pane__link span::after{ content:"\2197"; font-size:.9rem; line-height:1; }
+}
 
 /* ── process ─────────────────────────────────────────────── */
 
@@ -494,7 +517,9 @@ p{ margin:0; }
 .gal__item img, .gal__item video{ width:100%; height:auto; }
 .gal__item a{ display:block; }
 .gal__item img{ transition:transform .7s cubic-bezier(.2,.7,.3,1); }
-.gal__item a:hover img{ transform:scale(1.03); }
+@media (hover: hover) and (pointer: fine){
+  .gal__item a:hover img{ transform:scale(1.03); }
+}
 
 .galmore{
   max-width:var(--max); margin-inline:auto;
