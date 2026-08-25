@@ -419,6 +419,7 @@ p{ margin:0; }
 .drawer{ gap:.6rem; padding:1rem 1.1rem; border:1px solid var(--line); border-radius:6px; background:var(--sheet); }
 .drawer[hidden]{ display:none; }
 .drawer textarea{ min-height:84px; }
+.drawer--sm select{ max-width:11rem; }
 .field input[type="file"]{ padding:.55rem .6rem; font-size:.875rem; color:var(--mute); cursor:pointer; }
 .field input[type="file"]::file-selector-button{
   margin-right:.75rem; padding:.45rem .85rem; border-radius:999px;

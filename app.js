@@ -171,9 +171,17 @@ if (form) {
     return [val("logoNote") || "Details to follow", n && `${n} reference photo${n > 1 ? "s" : ""}`]
       .filter(Boolean).join(" · ");
   };
-  const drawer = () => ($("#logoPanel").hidden = !logo.checked);
-  logo.addEventListener("change", drawer);
-  drawer();
+  // checkboxes that open a follow-up question
+  const drawers = [["e1", "starsPanel"], ["e3", "logoPanel"]];
+  const syncDrawers = () => drawers.forEach(([box, panel]) => ($("#" + panel).hidden = !$("#" + box).checked));
+  drawers.forEach(([box]) => $("#" + box).addEventListener("change", syncDrawers));
+  syncDrawers();
+
+  // the count rides along with the add-on it belongs to
+  const starAddOns = () =>
+    checked("extra")
+      .map((x) => (x === "Shooting stars" ? `Shooting stars (${val("shooting")})` : x))
+      .join(", ") || "None";
 
   // one row per answer: [step it lives on, label, value]. Drives the review
   // screen and the message that gets sent, so the two can't drift apart.
@@ -184,7 +192,7 @@ if (form) {
     ...(picked("Starlight headliner")
       ? [
           [2, "Stars", val("stars")],
-          [2, "Star add-ons", checked("extra").join(", ") || "None"],
+          [2, "Star add-ons", starAddOns()],
           ...(logo.checked ? [[2, "Logo", logoLine()]] : []),
         ]
       : []),
