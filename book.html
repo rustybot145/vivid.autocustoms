@@ -104,34 +104,61 @@
     </fieldset>
 
     <!-- 03 ─────────────────────────────────────────────── -->
-    <fieldset class="step">
+    <fieldset class="step" id="stepOpts">
       <div class="step__head"><span class="step__n">03</span><h2>How you want it</h2></div>
-      <div class="field">
-        <label for="stars">Star count</label>
-        <select id="stars" name="stars">
-          <option>400</option>
-          <option selected>600</option>
-          <option>800</option>
-          <option>1000</option>
-          <option>1500</option>
-          <option>2000</option>
-        </select>
-      </div>
-      <div class="field">
-        <span class="lbl" id="exLbl">Extras</span>
-        <p class="step__hint">Twinkle, app control and color matching come standard on every install — no need to ask.</p>
-        <div class="chips" role="group" aria-labelledby="exLbl">
-          <input type="checkbox" id="e1" name="extra" value="Shooting stars"><label for="e1">Shooting stars</label>
-          <input type="checkbox" id="e2" name="extra" value="Dual color"><label for="e2">Dual color</label>
-          <input type="checkbox" id="e3" name="extra" value="Logo" aria-controls="logoPanel"><label for="e3">Logo</label>
+      <p class="step__hint">Only the parts you picked on the first screen.</p>
+
+      <!-- shown when Starlight headliner is picked -->
+      <div class="grp" data-svc="Starlight headliner" hidden>
+        <h3 class="grp__h">Starlight headliner</h3>
+        <div class="field">
+          <label for="stars">How many stars</label>
+          <select id="stars" name="stars">
+            <option>400</option>
+            <option selected>600</option>
+            <option>800</option>
+            <option>1000</option>
+            <option>1500</option>
+            <option>2000</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="lbl" id="exLbl">Add-ons</span>
+          <p class="step__hint">Twinkle, app control and color matching come standard on every install — no need to ask.</p>
+          <div class="chips" role="group" aria-labelledby="exLbl">
+            <input type="checkbox" id="e1" name="extra" value="Shooting stars"><label for="e1">Shooting stars</label>
+            <input type="checkbox" id="e2" name="extra" value="Dual color"><label for="e2">Dual color</label>
+            <input type="checkbox" id="e3" name="extra" value="Logo" aria-controls="logoPanel"><label for="e3">Logo</label>
+          </div>
+        </div>
+        <div class="field drawer" id="logoPanel" hidden>
+          <label for="logoNote">The logo you want up there</label>
+          <textarea id="logoNote" name="logoNote" placeholder="Team badge over the passenger seat, about a foot wide, white fiber."></textarea>
+          <label for="logoFile">Upload a reference</label>
+          <input id="logoFile" name="logoFile" type="file" accept="image/*" multiple>
+          <p class="step__hint" id="logoHint">A photo, screenshot or the logo file itself — whatever you have.</p>
         </div>
       </div>
-      <div class="field drawer" id="logoPanel" hidden>
-        <label for="logoNote">The logo you want up there</label>
-        <textarea id="logoNote" name="logoNote" placeholder="Team badge over the passenger seat, about a foot wide, white fiber."></textarea>
-        <label for="logoFile">Upload a reference</label>
-        <input id="logoFile" name="logoFile" type="file" accept="image/*" multiple>
-        <p class="step__hint" id="logoHint">A photo, screenshot or the logo file itself — whatever you have.</p>
+
+      <!-- shown when Ambient interior is picked -->
+      <div class="grp" data-svc="Ambient interior" hidden>
+        <h3 class="grp__h">Ambient interior</h3>
+        <div class="field">
+          <label for="strips">How many strips</label>
+          <select id="strips" name="strips">
+            <option>6</option>
+            <option selected>8</option>
+            <option>10</option>
+            <option>12</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="lbl" id="ambLbl">Add-ons</span>
+          <div class="chips" role="group" aria-labelledby="ambLbl">
+            <input type="checkbox" id="a1" name="amb" value="Footwell lighting"><label for="a1">Footwell lighting</label>
+            <input type="checkbox" id="a2" name="amb" value="Speaker lights"><label for="a2">Speaker lights</label>
+          </div>
+        </div>
       </div>
     </fieldset>
 

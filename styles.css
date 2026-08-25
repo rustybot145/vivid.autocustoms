@@ -385,6 +385,15 @@ p{ margin:0; }
 .step__head h2{ font-size:1.5rem; }
 .step__hint{ font-size:.875rem; color:var(--mute-2); margin-top:-.6rem; }
 
+/* one block of questions per service picked on step 01 */
+.grp{ display:grid; gap:1.25rem; }
+.grp[hidden]{ display:none; }
+.grp + .grp{ margin-top:.5rem; padding-top:1.75rem; border-top:1px solid var(--line); }
+.grp__h{
+  margin:0; font-size:.6875rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:.2em; color:var(--glow);
+}
+
 .field{ display:flex; flex-direction:column; gap:.4rem; min-width:0; }
 .field > label, .field > .lbl{
   font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.13em; color:var(--mute);

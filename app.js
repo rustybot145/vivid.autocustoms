@@ -152,9 +152,20 @@ if (form) {
     return [day && `From ${day}`, val("flex")].filter(Boolean).join(" · ");
   };
 
+  // step 03 only asks about the services picked on step 01. Nothing picked
+  // that has options (underglow, a repair) and the whole step steps aside.
+  const picked = (svc) => checked("service").includes(svc);
+  const groups = $$(".grp", form);
+  const stepOpts = $("#stepOpts");
+  const syncGroups = () => {
+    groups.forEach((g) => (g.hidden = !picked(g.dataset.svc)));
+    stepOpts.dataset.off = groups.every((g) => g.hidden) ? "1" : "";
+  };
+  $$("input[name=service]").forEach((c) => c.addEventListener("change", syncGroups));
+
   // the Logo extra opens a drawer for the description and reference images
   const logo = $("#e3"), logoFile = $("#logoFile");
-  const logoShots = () => (logo.checked ? [...logoFile.files] : []);
+  const logoShots = () => (logo.checked && picked("Starlight headliner") ? [...logoFile.files] : []);
   const logoLine = () => {
     const n = logoShots().length;
     return [val("logoNote") || "Details to follow", n && `${n} reference photo${n > 1 ? "s" : ""}`]
@@ -170,9 +181,19 @@ if (form) {
     [0, "Install", checked("service").join(", ") || "Not decided yet"],
     [1, "Vehicle", vehicle() || "—"],
     [1, "Roof", `${checked("roof")[0]}, headliner ${checked("headliner")[0].toLowerCase()}`],
-    [2, "Stars", val("stars")],
-    [2, "Extras", checked("extra").join(", ") || "None"],
-    ...(logo.checked ? [[2, "Logo", logoLine()]] : []),
+    ...(picked("Starlight headliner")
+      ? [
+          [2, "Stars", val("stars")],
+          [2, "Star add-ons", checked("extra").join(", ") || "None"],
+          ...(logo.checked ? [[2, "Logo", logoLine()]] : []),
+        ]
+      : []),
+    ...(picked("Ambient interior")
+      ? [
+          [2, "Ambient strips", val("strips")],
+          [2, "Ambient add-ons", checked("amb").join(", ") || "None"],
+        ]
+      : []),
     [3, "Timing", `${when()}, ${val("drop").toLowerCase()} drop-off, ${checked("wait")[0].toLowerCase()}`],
     [4, "Name", val("name") || "—"],
     [4, "Contact", `${val("phone")}${val("email") ? ` / ${val("email")}` : ""}` || "—"],
@@ -244,12 +265,21 @@ if (form) {
     }
   };
 
+  const live = () => steps.filter((s) => !s.dataset.off);
+  // nearest applicable step at or past i, walking in `dir`
+  const seek = (i, dir) => {
+    while (i > 0 && i < last && steps[i].dataset.off) i += dir;
+    return i;
+  };
+
   function show(i, quiet) {
-    cur = Math.min(Math.max(i, 0), last);
+    syncGroups();
+    cur = seek(Math.min(Math.max(i, 0), last), i < cur ? -1 : 1);
     steps.forEach((s, k) => s.classList.toggle("is-on", k === cur));
     if (cur === last) review();
-    fill.style.width = `${((cur + 1) / steps.length) * 100}%`;
-    count.textContent = `Step ${cur + 1} of ${steps.length}`;
+    const on = live(), n = on.indexOf(steps[cur]) + 1;
+    fill.style.width = `${(n / on.length) * 100}%`;
+    count.textContent = `Step ${n} of ${on.length}`;
     back.hidden = cur === 0;
     next.hidden = cur === last;
     next.textContent = toReview ? "Back to review" : "Next";
