@@ -15,6 +15,7 @@ SRC = ROOT / "vivid folders"
 MOVED = {"IMG_6449", "IMG_6450", "IMG_6452"}
 
 CARS = [
+    ("mustang-600", "2025 Mustang 600 stars",    "Mustang, 2025",              "600 stars · full ambient · underglow"),
     ("durango",    "2025 dodge durango hornet ", "Dodge Durango Hornet, 2025", "600 stars · full ambient · footwells"),
     ("mustang-gt", "2025 Mustang gt",            "Mustang GT, 2025",           "Full ambient kit · footwells"),
     ("king-ranch", "King ranch truck",           "Ford F-150 King Ranch",      "800 stars · full ambient · footwells · panoramic roof"),

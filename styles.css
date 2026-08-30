@@ -219,6 +219,9 @@ p{ margin:0; }
 }
 @media (min-width: 720px){ .panes{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 
+/* An odd number of builds would leave the last one beside an empty cell. */
+.pane:last-child:nth-child(odd){ grid-column:1 / -1; aspect-ratio:2/1; }
+
 .pane{ margin:0; position:relative; overflow:hidden; background:var(--ink); border-radius:3px; aspect-ratio:5/4; }
 .pane img, .pane video{
   position:absolute; inset:0;
